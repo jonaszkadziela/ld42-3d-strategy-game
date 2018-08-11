@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class MapGenerator : MonoBehaviour
 {
 	public GameObject cubePrefab;
 	public Vector2 mapSize;
+	public NavMeshSurface navMesh;
 
 	public string containerName = "Generated Map";
 
@@ -15,6 +17,7 @@ public class MapGenerator : MonoBehaviour
 	void Start()
 	{
 		GenerateMap();
+		UpdateNavMesh();
 	}
 
 	public void GenerateMap()
@@ -40,6 +43,11 @@ public class MapGenerator : MonoBehaviour
 				newCube.transform.parent = mapContainer.transform;
 			}
 		}
+	}
+
+	public void UpdateNavMesh()
+	{
+		navMesh.BuildNavMesh();
 	}
 
 	private void DetermineCubeSize()
