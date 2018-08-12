@@ -33,7 +33,7 @@ public class SelectionManager : MonoBehaviour
 			{
 				Selectable selectable = hit.collider.GetComponent<Selectable>();
 
-				if (Input.GetButton("Group selection"))
+				if (Input.GetButton("Group Selection"))
 				{
 					if (selectable.isSelected)
 					{
@@ -61,7 +61,7 @@ public class SelectionManager : MonoBehaviour
 			}
 			else
 			{
-				if (!Input.GetButton("Group selection"))
+				if (!Input.GetButton("Group Selection"))
 				{
 					DeselectAll();
 				}
@@ -97,7 +97,7 @@ public class SelectionManager : MonoBehaviour
 	{
 		List<Selectable> removeItems = new List<Selectable>();
 
-		if (!Input.GetButton("Group selection"))
+		if (!Input.GetButton("Group Selection"))
 		{
 			DeselectAll();
 		}
