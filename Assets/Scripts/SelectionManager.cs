@@ -78,16 +78,21 @@ public class SelectionManager : MonoBehaviour
 		}
 	}
 
-	private void DeselectAll()
+	public void Deselect(Selectable s)
+	{
+		if (s.isSelected)
+		{
+			s.Toggle();
+		}
+	}
+
+	public void DeselectAll()
 	{
 		if (selectedItems.Count > 0)
 		{
 			foreach (Selectable s in selectedItems)
 			{
-				if (s.isSelected)
-				{
-					s.Toggle();
-				}
+				Deselect(s);
 			}
 			selectedItems.Clear();
 		}

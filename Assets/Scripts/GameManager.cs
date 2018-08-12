@@ -4,6 +4,8 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 
+	public bool gameOver = false;
+
 	void Awake()
 	{
 		if (Instance == null)
@@ -14,5 +16,10 @@ public class GameManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
+	}
+
+	public void GameOver()
+	{
+		gameOver = true;
 	}
 }

@@ -13,8 +13,7 @@ public class MapGenerator : MonoBehaviour
 
 	[Range(0, 1)]
 	public float marginPercentage;
-
-	private float cubeSize;
+	public float cubeSize;
 
 	void Start()
 	{

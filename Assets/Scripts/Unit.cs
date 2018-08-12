@@ -25,11 +25,24 @@ public class Unit : MonoBehaviour
 
 			if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit))
 			{
-				if (hit.collider.gameObject.tag != "Unit")
+				if (hit.collider.gameObject.tag != "Unit" && agent.isOnNavMesh)
 				{
 					agent.SetDestination(hit.point);
 				}
 			}
 		}
+	}
+
+	public void OnDisable()
+	{
+		sm.Deselect(selectable);
+		sm.selectableItems.Remove(selectable);
+
+		GameObject child = selectable.gameObject;
+
+		child.GetComponent<NavMeshAgent>().enabled = false;
+		child.GetComponent<Rigidbody>().isKinematic = false;
+
+		selectable.enabled = false;
 	}
 }
