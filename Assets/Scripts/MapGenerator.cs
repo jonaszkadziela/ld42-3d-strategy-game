@@ -7,6 +7,8 @@ public class MapGenerator : MonoBehaviour
 	public Vector2 mapSize;
 	public NavMeshSurface navMesh;
 
+	public GameplayManager gameplayManager;
+
 	public string containerName = "Generated Map";
 
 	[Range(0, 1)]
@@ -25,6 +27,7 @@ public class MapGenerator : MonoBehaviour
 		if (GameObject.Find(containerName))
 		{
 			DestroyImmediate(GameObject.Find(containerName));
+			gameplayManager.cubesList.Clear();
 		}
 
 		GameObject mapContainer = new GameObject(containerName);
@@ -37,11 +40,12 @@ public class MapGenerator : MonoBehaviour
 		{
 			for (int y = 0; y < mapSize.y; y++)
 			{
-				Vector3 cubePosition = new Vector3(-relativeMapSize.x / 2 + cubeSize / 2 + x * cubeSize, 0, -relativeMapSize.y / 2 + cubeSize / 2 + y * cubeSize);
+				Vector3 cubePosition = new Vector3(-relativeMapSize.x / 2 + cubeSize / 2 + x * cubeSize, -cubeSize / 2, -relativeMapSize.y / 2 + cubeSize / 2 + y * cubeSize);
 				GameObject newCube = Instantiate(cubePrefab, cubePosition, Quaternion.identity);
 				newCube.transform.localScale = Vector3.one * cubeSize * (1 - marginPercentage);
 				newCube.transform.parent = mapContainer.transform;
 				newCube.name = "Cube (" + x + ", " + y + ")";
+				gameplayManager.cubesList.Add(newCube);
 			}
 		}
 	}
