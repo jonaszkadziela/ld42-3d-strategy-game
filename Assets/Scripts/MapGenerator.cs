@@ -33,14 +33,15 @@ public class MapGenerator : MonoBehaviour
 
 		Vector2 relativeMapSize = new Vector2(mapSize.x * cubeSize, mapSize.y * cubeSize);
 
-		for (float x = 0f; x < relativeMapSize.x; x += cubeSize)
+		for (int x = 0; x < mapSize.x; x++)
 		{
-			for (float y = 0f; y < relativeMapSize.y; y += cubeSize)
+			for (int y = 0; y < mapSize.y; y++)
 			{
-				Vector3 cubePosition = new Vector3(-relativeMapSize.x / 2 + cubeSize / 2 + x, 0, -relativeMapSize.y / 2 + cubeSize / 2 + y);
+				Vector3 cubePosition = new Vector3(-relativeMapSize.x / 2 + cubeSize / 2 + x * cubeSize, 0, -relativeMapSize.y / 2 + cubeSize / 2 + y * cubeSize);
 				GameObject newCube = Instantiate(cubePrefab, cubePosition, Quaternion.identity);
 				newCube.transform.localScale = Vector3.one * cubeSize * (1 - marginPercentage);
 				newCube.transform.parent = mapContainer.transform;
+				newCube.name = "Cube (" + x + ", " + y + ")";
 			}
 		}
 	}

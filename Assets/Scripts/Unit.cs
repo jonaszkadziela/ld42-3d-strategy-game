@@ -7,16 +7,19 @@ public class Unit : MonoBehaviour
 
 	private Camera mainCamera;
 	private Selectable selectable;
+	private SelectionManager sm;
 
 	void Start()
 	{
 		mainCamera = Camera.main;
 		selectable = GetComponentInChildren<Selectable>();
+		sm = GameManager.Instance.GetComponent<SelectionManager>();
+		sm.selectableItems.Add(selectable);
 	}
 
 	void Update()
 	{
-		if (Input.GetMouseButtonDown(0) && selectable.isSelected)
+		if (Input.GetMouseButtonDown(1) && selectable.isSelected)
 		{
 			RaycastHit hit;
 
