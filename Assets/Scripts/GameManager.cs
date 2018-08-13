@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Analytics;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,11 +32,20 @@ public class GameManager : MonoBehaviour
 	{
 		GameOver = true;
 		SavesManager.Save();
+		UpdateAnalytics();
 
 		Camera.main.GetComponent<CameraController>().MoveCameraToTarget(CameraController.InitialPosition, 0.05f);
 
 		topUI.SetActive(false);
 		gameOverUI.SetActive(true);
+	}
+
+	public void UpdateAnalytics()
+	{
+		Analytics.CustomEvent("PlayerScore", new Dictionary<string, object>
+			{
+				{ "HighScore", ScoreManager.HighScore }
+			});
 	}
 
 	public void RestartGame()
