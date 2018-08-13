@@ -16,6 +16,10 @@ public class SelectionBox : MonoBehaviour
 
 	void Update()
 	{
+		if (GameManager.GameOver)
+		{
+			return;
+		}
 		if (Input.GetMouseButtonDown(0))
 		{
 			RaycastHit hit;

@@ -33,18 +33,18 @@ public class GameplayManager : MonoBehaviour
 
 	void Update()
 	{
-		if (GameManager.Instance.gameOver)
+		if (GameManager.GameOver)
 		{
 			return;
 		}
 		if (cubesAvailable.Count <= 0 || ScoreManager.TimeLeft <= 0f)
 		{
-			GameManager.Instance.GameOver();
+			GameManager.Instance.ToggleGameOver();
 			return;
 		}
 		if (unitSpawnCDLeft <= 0f)
 		{
-			Vector3 randomPosition = getRandomPosition();
+			Vector3 randomPosition = GetRandomPosition();
 
 			if (randomPosition == Vector3.zero)
 			{
@@ -60,7 +60,7 @@ public class GameplayManager : MonoBehaviour
 		}
 		if (cubeDestroyCDLeft <= 0f)
 		{
-			GameObject cubeToDestroy = getRandomCube();
+			GameObject cubeToDestroy = GetRandomCube();
 
 			if (cubeToDestroy == null)
 			{
@@ -94,10 +94,10 @@ public class GameplayManager : MonoBehaviour
 		mg.UpdateNavMesh();
 	}
 
-	private Vector3 getRandomPosition()
+	private Vector3 GetRandomPosition()
 	{
 		Vector3 randomPosition = Vector3.zero;
-		GameObject randomCube = getRandomCube();
+		GameObject randomCube = GetRandomCube();
 
 		if (randomCube != null)
 		{
@@ -112,7 +112,7 @@ public class GameplayManager : MonoBehaviour
 		return randomPosition;
 	}
 
-	private GameObject getRandomCube()
+	private GameObject GetRandomCube()
 	{
 		if (cubesAvailable.Count > 0)
 		{

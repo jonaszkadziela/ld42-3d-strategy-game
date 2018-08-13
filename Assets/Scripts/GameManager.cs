@@ -3,8 +3,10 @@
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
+	public static bool GameOver;
 
-	public bool gameOver = false;
+	public GameObject topUI;
+	public GameObject gameOverUI;
 
 	void Awake()
 	{
@@ -18,8 +20,23 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	public void GameOver()
+	void Start()
 	{
-		gameOver = true;
+		GameOver = false;
+	}
+
+	public void ToggleGameOver()
+	{
+		GameOver = true;
+
+		Camera.main.GetComponent<CameraController>().MoveCameraToTarget(CameraController.InitialPosition, 0.05f);
+
+		topUI.SetActive(false);
+		gameOverUI.SetActive(true);
+	}
+
+	public void RestartGame()
+	{
+		SceneFade.Instance.FadeTo(SceneFade.ActiveSceneName);
 	}
 }

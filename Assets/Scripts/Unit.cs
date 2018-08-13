@@ -19,6 +19,10 @@ public class Unit : MonoBehaviour
 
 	void Update()
 	{
+		if (GameManager.GameOver)
+		{
+			return;
+		}
 		if (Input.GetMouseButtonDown(1) && selectable.isSelected)
 		{
 			RaycastHit hit;
@@ -45,6 +49,6 @@ public class Unit : MonoBehaviour
 		child.layer = 0;
 
 		selectable.enabled = false;
-		this.enabled = false;
+		enabled = false;
 	}
 }

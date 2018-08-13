@@ -47,8 +47,8 @@ public class Cube : MonoBehaviour
 	public void InvokeDestroy(float delay, DestroyTypes type = DestroyTypes.SelfDestruct)
 	{
 		toDestroy = true;
-		gm.cubesAvailable.Remove(this.gameObject);
-		gm.cubesToDestroy.Add(this.gameObject);
+		gm.cubesAvailable.Remove(gameObject);
+		gm.cubesToDestroy.Add(gameObject);
 		switch (type)
 		{
 			case DestroyTypes.SelfDestruct:
@@ -65,8 +65,8 @@ public class Cube : MonoBehaviour
 	public void CancelDestroy()
 	{
 		toDestroy = false;
-		gm.cubesAvailable.Add(this.gameObject);
-		gm.cubesToDestroy.Remove(this.gameObject);
+		gm.cubesAvailable.Add(gameObject);
+		gm.cubesToDestroy.Remove(gameObject);
 		CancelInvoke("SelfDestruct");
 		CancelInvoke("Explode");
 	}
@@ -78,10 +78,10 @@ public class Cube : MonoBehaviour
 			return;
 		}
 
-		Vector3 overlapBoxScale = this.transform.localScale / 2;
+		Vector3 overlapBoxScale = transform.localScale / 2;
 		overlapBoxScale.y *= 2;
 
-		Collider[] units = Physics.OverlapBox(this.transform.position, overlapBoxScale, Quaternion.identity, unitMask);
+		Collider[] units = Physics.OverlapBox(transform.position, overlapBoxScale, Quaternion.identity, unitMask);
 
 		foreach (Collider unit in units)
 		{
@@ -91,10 +91,10 @@ public class Cube : MonoBehaviour
 		ScoreManager.ChangeCurrentUnits(-units.Length);
 
 		rb.isKinematic = false;
-		this.gameObject.layer = 0;
+		gameObject.layer = 0;
 		toDestroy = false;
 
-		gm.DestroyCube(this.gameObject);
+		gm.DestroyCube(gameObject);
 	}
 
 	private void Explode()
@@ -104,9 +104,9 @@ public class Cube : MonoBehaviour
 			return;
 		}
 
-		Instantiate(cubeExplosionParticle, this.transform.position, Quaternion.identity);
+		Instantiate(cubeExplosionParticle, transform.position, Quaternion.identity);
 
-		Collider[] cubes = Physics.OverlapSphere(this.transform.position, cubeExplosionRadius, cubeMask);
+		Collider[] cubes = Physics.OverlapSphere(transform.position, cubeExplosionRadius, cubeMask);
 
 		foreach (Collider cube in cubes)
 		{

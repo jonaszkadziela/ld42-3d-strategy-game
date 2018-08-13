@@ -6,11 +6,11 @@ public class LockRotation : MonoBehaviour
 
 	void Start()
 	{
-		initialRotation = this.transform.rotation;
+		initialRotation = transform.rotation;
 	}
 
 	void LateUpdate()
 	{
-		this.transform.rotation = initialRotation;
+		transform.rotation = initialRotation;
 	}
 }

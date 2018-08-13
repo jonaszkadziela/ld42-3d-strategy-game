@@ -21,6 +21,10 @@ public class SelectionManager : MonoBehaviour
 
 	void Update()
 	{
+		if (GameManager.GameOver)
+		{
+			return;
+		}
 		if (Input.GetMouseButtonDown(0))
 		{
 			startMousePos = mainCamera.ScreenToViewportPoint(Input.mousePosition);
