@@ -6,22 +6,29 @@ public class GameplayManager : MonoBehaviour
 	public GameObject unitPrefab;
 	public GameObject unitParticle;
 
-	public float unitSpawnDelay = 2f;
-	private float unitSpawnDelayLeft = 2f;
+	public float unitSpawnCD = 2f;
+	private float unitSpawnCDLeft;
 
-	public float cubeDestroyDelay;
-	private float cubeDestroyDelayLeft;
+	public float cubeDestroyCD = 2f;
+	private float cubeDestroyCDLeft;
 
-	public List<GameObject> cubesList;
+	[Range(0, 1)]
+	public float explosionPercentage = 0.25f;
+	public float cubeSelfDestructDelay = 1f;
+	public float cubeExplosionDelay = 2f;
 
-	private MapGenerator map;
+	public List<GameObject> cubesAvailable;
+	public List<GameObject> cubesToDestroy;
+
+	private MapGenerator mg;
 
 	void Awake()
 	{
-		map = GameManager.Instance.GetComponent<MapGenerator>();
-		cubesList = new List<GameObject>();
-		unitSpawnDelayLeft = unitSpawnDelay;
-		cubeDestroyDelayLeft = cubeDestroyDelay;
+		mg = GameManager.Instance.GetComponent<MapGenerator>();
+		cubesAvailable = new List<GameObject>();
+		cubesToDestroy = new List<GameObject>();
+		unitSpawnCDLeft = unitSpawnCD;
+		cubeDestroyCDLeft = cubeDestroyCD;
 	}
 
 	void Update()
@@ -30,70 +37,87 @@ public class GameplayManager : MonoBehaviour
 		{
 			return;
 		}
-		if (cubesList.Count <= 0 || ScoreManager.TimeLeft <= 0f)
+		if (cubesAvailable.Count <= 0 || ScoreManager.TimeLeft <= 0f)
 		{
 			GameManager.Instance.GameOver();
 			return;
 		}
-		if (unitSpawnDelayLeft <= 0f)
+		if (unitSpawnCDLeft <= 0f)
 		{
-			Vector3 randomPosition = getRandomCubePosition();
-			randomPosition.y += map.cubeSize / 2;
+			Vector3 randomPosition = getRandomPosition();
 
 			if (randomPosition == Vector3.zero)
 			{
 				return;
 			}
 
-			Instantiate(unitPrefab, randomPosition, Quaternion.identity);
-			Instantiate(unitParticle, randomPosition, Quaternion.identity);
+			GameObject newUnit = Instantiate(unitPrefab, randomPosition, Quaternion.identity);
+			Instantiate(unitParticle, newUnit.transform.position, Quaternion.identity);
 
 			ScoreManager.ChangeCurrentUnits(1);
 
-			unitSpawnDelayLeft = unitSpawnDelay;
+			unitSpawnCDLeft = unitSpawnCD;
 		}
-		if (cubeDestroyDelayLeft <= 0f)
+		if (cubeDestroyCDLeft <= 0f)
 		{
-			GameObject randomCube = getRandomCube();
+			GameObject cubeToDestroy = getRandomCube();
 
-			if (randomCube == null)
+			if (cubeToDestroy == null)
 			{
 				return;
 			}
-				
-			if (randomCube.GetComponent<Cube>().SelfDestruct())
+
+			Cube.DestroyTypes destroyType = Cube.DestroyTypes.SelfDestruct;
+			float destroyDelay = cubeSelfDestructDelay;
+
+			if (explosionPercentage >= Random.Range(0f, 1f))
 			{
-				cubesList.Remove(randomCube);
-				map.UpdateNavMesh();
+				destroyType = Cube.DestroyTypes.Explode;
+				destroyDelay = cubeExplosionDelay;
 			}
 
-			cubeDestroyDelayLeft = cubeDestroyDelay;
+			cubeToDestroy.GetComponent<Cube>().InvokeDestroy(destroyDelay, destroyType);
+			cubesAvailable.Remove(cubeToDestroy);
+			cubesToDestroy.Add(cubeToDestroy);
+
+			cubeDestroyCDLeft = cubeDestroyCD;
 		}
 
-		unitSpawnDelayLeft -= Time.deltaTime;
-		cubeDestroyDelayLeft -= Time.deltaTime;
+		unitSpawnCDLeft -= Time.deltaTime;
+		cubeDestroyCDLeft -= Time.deltaTime;
 		ScoreManager.TimeLeft -= Time.deltaTime;
 	}
 
-	private Vector3 getRandomCubePosition()
+	public void DestroyCube(GameObject cube)
 	{
-		Vector3 cubePosition = Vector3.zero;
+		cubesToDestroy.Remove(cube);
+		mg.UpdateNavMesh();
+	}
+
+	private Vector3 getRandomPosition()
+	{
+		Vector3 randomPosition = Vector3.zero;
 		GameObject randomCube = getRandomCube();
 
 		if (randomCube != null)
 		{
-			cubePosition = randomCube.transform.position;
+			float offset = mg.cubeSize / 2;
+
+			randomPosition = randomCube.transform.position;
+			randomPosition.x += Random.Range(-offset, offset);
+			randomPosition.y += offset;
+			randomPosition.z += Random.Range(-offset, offset);
 		}
 
-		return cubePosition;
+		return randomPosition;
 	}
 
 	private GameObject getRandomCube()
 	{
-		if (cubesList.Count > 0)
+		if (cubesAvailable.Count > 0)
 		{
-			int randomCubeIndex = Random.Range(0, cubesList.Count);
-			return cubesList[randomCubeIndex];
+			int randomCubeIndex = Random.Range(0, cubesAvailable.Count);
+			return cubesAvailable[randomCubeIndex];
 		}
 		return null;
 	}

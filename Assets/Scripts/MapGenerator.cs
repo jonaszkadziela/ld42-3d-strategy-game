@@ -13,6 +13,8 @@ public class MapGenerator : MonoBehaviour
 
 	[Range(0, 1)]
 	public float marginPercentage;
+
+	[HideInInspector]
 	public float cubeSize;
 
 	void Start()
@@ -26,7 +28,7 @@ public class MapGenerator : MonoBehaviour
 		if (GameObject.Find(containerName))
 		{
 			DestroyImmediate(GameObject.Find(containerName));
-			gameplayManager.cubesList.Clear();
+			gameplayManager.cubesAvailable.Clear();
 		}
 
 		GameObject mapContainer = new GameObject(containerName);
@@ -44,7 +46,7 @@ public class MapGenerator : MonoBehaviour
 				newCube.transform.localScale = Vector3.one * cubeSize * (1 - marginPercentage);
 				newCube.transform.parent = mapContainer.transform;
 				newCube.name = "Cube (" + x + ", " + y + ")";
-				gameplayManager.cubesList.Add(newCube);
+				gameplayManager.cubesAvailable.Add(newCube);
 			}
 		}
 	}
