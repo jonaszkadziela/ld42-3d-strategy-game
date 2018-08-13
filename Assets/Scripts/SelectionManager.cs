@@ -5,20 +5,18 @@ public class SelectionManager : MonoBehaviour
 {
 	public LayerMask selectablesLayer;
 
-	private Camera mainCamera;
+	public List<Selectable> selectableItems;
 	private List<Selectable> selectedItems;
 
-	[HideInInspector]
-	public bool isSelecting = false;
-	public List<Selectable> selectableItems;
+	private Camera mainCamera;
 	private Vector3 startMousePos;
 	private Vector3 endMousePos;
 
 	void Awake()
 	{
 		mainCamera = Camera.main;
-		selectedItems = new List<Selectable>();
 		selectableItems = new List<Selectable>();
+		selectedItems = new List<Selectable>();
 	}
 
 	void Update()
@@ -32,6 +30,11 @@ public class SelectionManager : MonoBehaviour
 			if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, selectablesLayer))
 			{
 				Selectable selectable = hit.collider.GetComponent<Selectable>();
+
+				if (!selectableItems.Contains(selectable))
+				{
+					return;
+				}
 
 				if (Input.GetButton("Group Selection"))
 				{
@@ -84,6 +87,7 @@ public class SelectionManager : MonoBehaviour
 		{
 			s.Toggle();
 		}
+		selectedItems.Remove(s);
 	}
 
 	public void DeselectAll()
@@ -92,7 +96,10 @@ public class SelectionManager : MonoBehaviour
 		{
 			foreach (Selectable s in selectedItems)
 			{
-				Deselect(s);
+				if (s.isSelected)
+				{
+					s.Toggle();
+				}
 			}
 			selectedItems.Clear();
 		}

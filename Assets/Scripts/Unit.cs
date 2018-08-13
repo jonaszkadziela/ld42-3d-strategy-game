@@ -42,7 +42,9 @@ public class Unit : MonoBehaviour
 
 		child.GetComponent<NavMeshAgent>().enabled = false;
 		child.GetComponent<Rigidbody>().isKinematic = false;
+		child.layer = 0;
 
 		selectable.enabled = false;
+		this.enabled = false;
 	}
 }

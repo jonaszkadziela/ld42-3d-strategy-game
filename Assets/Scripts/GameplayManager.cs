@@ -30,7 +30,7 @@ public class GameplayManager : MonoBehaviour
 		{
 			return;
 		}
-		if (cubesList.Count <= 0)
+		if (cubesList.Count <= 0 || ScoreManager.TimeLeft <= 0f)
 		{
 			GameManager.Instance.GameOver();
 			return;
@@ -45,8 +45,10 @@ public class GameplayManager : MonoBehaviour
 				return;
 			}
 
-			GameObject newUnit = Instantiate(unitPrefab, randomPosition, Quaternion.identity);
-			Instantiate(unitParticle, newUnit.transform.position, Quaternion.identity);
+			Instantiate(unitPrefab, randomPosition, Quaternion.identity);
+			Instantiate(unitParticle, randomPosition, Quaternion.identity);
+
+			ScoreManager.ChangeCurrentUnits(1);
 
 			unitSpawnDelayLeft = unitSpawnDelay;
 		}
@@ -58,17 +60,19 @@ public class GameplayManager : MonoBehaviour
 			{
 				return;
 			}
-
-			cubesList.Remove(randomCube);
-			randomCube.layer = 0;
-			randomCube.GetComponent<Cube>().SelfDestruct();
-			map.UpdateNavMesh();
+				
+			if (randomCube.GetComponent<Cube>().SelfDestruct())
+			{
+				cubesList.Remove(randomCube);
+				map.UpdateNavMesh();
+			}
 
 			cubeDestroyDelayLeft = cubeDestroyDelay;
 		}
 
 		unitSpawnDelayLeft -= Time.deltaTime;
 		cubeDestroyDelayLeft -= Time.deltaTime;
+		ScoreManager.TimeLeft -= Time.deltaTime;
 	}
 
 	private Vector3 getRandomCubePosition()

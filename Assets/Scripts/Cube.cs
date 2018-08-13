@@ -12,7 +12,7 @@ public class Cube : MonoBehaviour
 		rb = GetComponent<Rigidbody>();
 	}
 
-	public void SelfDestruct()
+	public bool SelfDestruct()
 	{
 		Vector3 overlapBoxScale = this.transform.localScale / 2;
 		overlapBoxScale.y *= 2;
@@ -24,6 +24,11 @@ public class Cube : MonoBehaviour
 			unit.transform.parent.GetComponent<Unit>().enabled = false;
 		}
 
+		ScoreManager.ChangeCurrentUnits(-units.Length);
+
 		rb.isKinematic = false;
+		this.gameObject.layer = 0;
+
+		return true;
 	}
 }
