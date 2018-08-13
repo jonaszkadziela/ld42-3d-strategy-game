@@ -5,6 +5,7 @@ public class ScoreManager : MonoBehaviour
 	public static float TimeLeft;
 	public static int MostUnits;
 	public static int CurrentUnits;
+	public static int HighScore;
 
 	public float startTimeLeft = 60f;
 	public int startMostUnits = 0;

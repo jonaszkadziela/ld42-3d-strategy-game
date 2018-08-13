@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class SceneFade : MonoBehaviour
 {
 	public static SceneFade Instance;
+	public static string GameSceneName = "Main";
+	public static string MainMenuSceneName = "Main Menu";
 	public static string ActiveSceneName;
 
 	public float fadeDuration = 1f;

@@ -23,11 +23,13 @@ public class GameManager : MonoBehaviour
 	void Start()
 	{
 		GameOver = false;
+		SavesManager.Load();
 	}
 
 	public void ToggleGameOver()
 	{
 		GameOver = true;
+		SavesManager.Save();
 
 		Camera.main.GetComponent<CameraController>().MoveCameraToTarget(CameraController.InitialPosition, 0.05f);
 
@@ -37,6 +39,6 @@ public class GameManager : MonoBehaviour
 
 	public void RestartGame()
 	{
-		SceneFade.Instance.FadeTo(SceneFade.ActiveSceneName);
+		SceneFade.Instance.FadeTo(SceneFade.GameSceneName);
 	}
 }

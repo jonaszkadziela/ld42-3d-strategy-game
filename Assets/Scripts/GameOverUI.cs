@@ -23,10 +23,15 @@ public class GameOverUI : MonoBehaviour
 		GameManager.Instance.RestartGame();
 	}
 
+	public void Menu()
+	{
+		SceneFade.Instance.FadeTo(SceneFade.MainMenuSceneName);
+	}
+
 	private void StartAnimations()
 	{
 		StartCoroutine(AnimatedCounter(savedUnitsText, ScoreManager.MostUnits));
-		StartCoroutine(AnimatedCounter(highScoreText, ScoreManager.MostUnits));
+		StartCoroutine(AnimatedCounter(highScoreText, ScoreManager.HighScore));
 	}
 
 	private IEnumerator AnimatedCounter(TextMeshProUGUI text, int targetNumber)
