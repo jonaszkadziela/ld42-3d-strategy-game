@@ -2,13 +2,6 @@
 
 public class CameraController : MonoBehaviour
 {
-	[System.Serializable]
-	public struct Range
-	{
-		public float min;
-		public float max;
-	}
-
 	public Range xRange;
 	public Range yRange;
 	public Range zRange;

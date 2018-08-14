@@ -6,16 +6,25 @@ public class GameplayManager : MonoBehaviour
 	public GameObject unitPrefab;
 	public GameObject unitParticle;
 
-	public float unitSpawnCD = 2f;
+	public float increaseDifficultyLerpSpeed;
+
+	public float increaseDifficultyDelay;
+	private float increaseDifficultyDelayLeft;
+
+	public Range unitSpawnCDRange;
+	private float unitSpawnCD;
 	private float unitSpawnCDLeft;
 
-	public float cubeDestroyCD = 2f;
+	public Range cubeDestroyCDRange;
+	private float cubeDestroyCD;
 	private float cubeDestroyCDLeft;
 
-	[Range(0, 1)]
-	public float explosionPercentage = 0.25f;
-	public float cubeSelfDestructDelay = 1f;
-	public float cubeExplosionDelay = 2f;
+	public Range explosionPercentageRange;
+	private float explosionPercentage;
+	public Range cubeSelfDestructDelayRange;
+	private float cubeSelfDestructDelay;
+	public Range cubeExplosionDelayRange;
+	private float cubeExplosionDelay;
 
 	public List<GameObject> cubesAvailable;
 	public List<GameObject> cubesToDestroy;
@@ -27,8 +36,8 @@ public class GameplayManager : MonoBehaviour
 		mg = GameManager.Instance.GetComponent<MapGenerator>();
 		cubesAvailable = new List<GameObject>();
 		cubesToDestroy = new List<GameObject>();
-		unitSpawnCDLeft = unitSpawnCD;
-		cubeDestroyCDLeft = cubeDestroyCD;
+
+		InitializeVariables();
 	}
 
 	void Update()
@@ -82,9 +91,15 @@ public class GameplayManager : MonoBehaviour
 
 			cubeDestroyCDLeft = cubeDestroyCD;
 		}
+		if (increaseDifficultyDelayLeft <= 0f)
+		{
+			RecalculateVariables(increaseDifficultyLerpSpeed);
+			increaseDifficultyDelayLeft = increaseDifficultyDelay;
+		}
 
 		unitSpawnCDLeft -= Time.deltaTime;
 		cubeDestroyCDLeft -= Time.deltaTime;
+		increaseDifficultyDelayLeft -= Time.deltaTime;
 		ScoreManager.TimeLeft -= Time.deltaTime;
 	}
 
@@ -120,5 +135,28 @@ public class GameplayManager : MonoBehaviour
 			return cubesAvailable[randomCubeIndex];
 		}
 		return null;
+	}
+
+	private void InitializeVariables()
+	{
+		increaseDifficultyDelayLeft = increaseDifficultyDelay;
+
+		unitSpawnCD = unitSpawnCDRange.max;
+		cubeDestroyCD = cubeDestroyCDRange.max;
+		explosionPercentage = explosionPercentageRange.min;
+		cubeSelfDestructDelay = cubeSelfDestructDelayRange.max;
+		cubeExplosionDelay = cubeExplosionDelayRange.max;
+
+		unitSpawnCDLeft = unitSpawnCD;
+		cubeDestroyCDLeft = cubeDestroyCD;
+	}
+
+	private void RecalculateVariables(float lerpSpeed)
+	{
+		unitSpawnCD = Mathf.Lerp(unitSpawnCD, unitSpawnCDRange.min, lerpSpeed);
+		cubeDestroyCD = Mathf.Lerp(cubeDestroyCD, cubeDestroyCDRange.min, lerpSpeed);
+		explosionPercentage = Mathf.Lerp(explosionPercentage, explosionPercentageRange.max, lerpSpeed);
+		cubeSelfDestructDelay = Mathf.Lerp(cubeSelfDestructDelay, cubeSelfDestructDelayRange.min, lerpSpeed);
+		cubeExplosionDelay = Mathf.Lerp(cubeExplosionDelay, cubeExplosionDelayRange.min, lerpSpeed);
 	}
 }

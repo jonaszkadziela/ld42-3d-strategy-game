@@ -2,7 +2,7 @@
 
 public class Ground : MonoBehaviour
 {
-	void OnTriggerEnter(Collider other)
+	void OnTriggerExit(Collider other)
 	{
 		if (other.tag == "Unit")
 		{
