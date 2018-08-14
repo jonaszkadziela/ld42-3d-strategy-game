@@ -20,11 +20,13 @@ public class GameOverUI : MonoBehaviour
 
 	public void PlayAgain()
 	{
+		gameObject.SetActive(false);
 		GameManager.Instance.RestartGame();
 	}
 
 	public void Menu()
 	{
+		gameObject.SetActive(false);
 		SceneFade.Instance.FadeTo(SceneFade.MainMenuSceneName);
 	}
 

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
+	public static bool DisableSelection;
+
 	public LayerMask selectablesLayer;
 
 	public List<Selectable> selectableItems;
@@ -14,6 +16,7 @@ public class SelectionManager : MonoBehaviour
 
 	void Awake()
 	{
+		DisableSelection = false;
 		mainCamera = Camera.main;
 		selectableItems = new List<Selectable>();
 		selectedItems = new List<Selectable>();
@@ -21,7 +24,7 @@ public class SelectionManager : MonoBehaviour
 
 	void Update()
 	{
-		if (GameManager.GameOver)
+		if (GameManager.GameOver || DisableSelection)
 		{
 			return;
 		}

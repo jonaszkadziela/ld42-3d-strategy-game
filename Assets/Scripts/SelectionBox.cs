@@ -4,6 +4,7 @@ public class SelectionBox : MonoBehaviour
 {
 	public RectTransform selectionBoxImage;
 
+	private GameObject selectionBox;
 	private Camera mainCamera;
 	private Vector3 startPos;
 	private Vector3 endPos;
@@ -11,13 +12,18 @@ public class SelectionBox : MonoBehaviour
 	void Start()
 	{
 		mainCamera = Camera.main;
-		selectionBoxImage.gameObject.SetActive(false);
+		selectionBox = selectionBoxImage.gameObject;
+		selectionBox.SetActive(false);
 	}
 
 	void Update()
 	{
-		if (GameManager.GameOver)
+		if (GameManager.GameOver || SelectionManager.DisableSelection)
 		{
+			if (selectionBox.activeSelf)
+			{
+				selectionBox.SetActive(false);
+			}
 			return;
 		}
 		if (Input.GetMouseButtonDown(0))
@@ -27,12 +33,12 @@ public class SelectionBox : MonoBehaviour
 			if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
 			{
 				startPos = mainCamera.WorldToScreenPoint(hit.point);
-				selectionBoxImage.gameObject.SetActive(true);
+				selectionBox.SetActive(true);
 			}
 		}
 		if (Input.GetMouseButtonUp(0))
 		{
-			selectionBoxImage.gameObject.SetActive(false);
+			selectionBox.SetActive(false);
 		}
 		if (Input.GetMouseButton(0))
 		{
