@@ -2,9 +2,17 @@
 
 public class CameraController : MonoBehaviour
 {
-	public Range xRange;
-	public Range yRange;
-	public Range zRange;
+	public static Vector3 InitialPosition;
+
+	public Vector3 positionOffsetPerCube;
+	public Range xRangePerCube;
+	public Range yRangePerCube;
+	public Range zRangePerCube;
+
+	private Vector3 positionOffset;
+	private Range xRange;
+	private Range yRange;
+	private Range zRange;
 
 	public float panMargin = 10f;
 	public float panSpeed = 100f;
@@ -13,14 +21,13 @@ public class CameraController : MonoBehaviour
 	[Range(0, 1)]
 	public float lerpSpeed;
 
-	public static Vector3 InitialPosition;
-
 	private Vector3 moveToTargetPosition;
 	private float moveToTargetLerpSpeed;
 	private bool moveToTarget = false;
 
 	void Start()
 	{
+		InitializeVariables();
 		InitialPosition = transform.position;
 	}
 
@@ -79,5 +86,18 @@ public class CameraController : MonoBehaviour
 		moveToTarget = true;
 		moveToTargetPosition = position;
 		moveToTargetLerpSpeed = lerpSpeed;
+	}
+
+	private void InitializeVariables()
+	{
+		Vector2Int mapSize = GameManager.Map.mapSize;
+		int maxMapSize = Mathf.Max(mapSize.x, mapSize.y);
+
+		positionOffset = positionOffsetPerCube * maxMapSize;
+		xRange = xRangePerCube * maxMapSize;
+		yRange = yRangePerCube * maxMapSize;
+		zRange = zRangePerCube * maxMapSize;
+
+		transform.position = Vector3.zero + positionOffset;
 	}
 }

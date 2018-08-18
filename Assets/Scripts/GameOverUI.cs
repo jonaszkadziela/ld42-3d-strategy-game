@@ -4,14 +4,30 @@ using TMPro;
 
 public class GameOverUI : MonoBehaviour
 {
+	public GameObject gameOverUI;
+
 	public TextMeshProUGUI savedUnitsText;
 	public TextMeshProUGUI highScoreText;
 
 	public float animationsDelay = 1f;
 	public float textCounterDelay = 0.1f;
 
-	void OnEnable()
+	void Update()
 	{
+		if (GameManager.GameOver)
+		{
+			if (!gameOverUI.activeSelf)
+			{
+				TriggerGameOver();
+			}
+			return;
+		}
+	}
+
+	void TriggerGameOver()
+	{
+		gameOverUI.SetActive(true);
+
 		savedUnitsText.text = "0";
 		highScoreText.text = "0";
 

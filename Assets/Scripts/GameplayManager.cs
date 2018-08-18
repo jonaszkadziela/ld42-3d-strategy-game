@@ -3,11 +3,7 @@ using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
 {
-	public GameObject unitPrefab;
-	public GameObject unitParticle;
-
 	public float increaseDifficultyLerpSpeed;
-
 	public float increaseDifficultyDelay;
 	private float increaseDifficultyDelayLeft;
 
@@ -26,14 +22,14 @@ public class GameplayManager : MonoBehaviour
 	public Range cubeExplosionDelayRange;
 	private float cubeExplosionDelay;
 
+	public GameObject unitPrefab;
+	public GameObject unitParticle;
+
 	public List<GameObject> cubesAvailable;
 	public List<GameObject> cubesToDestroy;
 
-	private MapGenerator mg;
-
 	void Awake()
 	{
-		mg = GameManager.Instance.GetComponent<MapGenerator>();
 		cubesAvailable = new List<GameObject>();
 		cubesToDestroy = new List<GameObject>();
 
@@ -48,7 +44,7 @@ public class GameplayManager : MonoBehaviour
 		}
 		if (cubesAvailable.Count <= 0 || ScoreManager.TimeLeft <= 0f)
 		{
-			GameManager.Instance.ToggleGameOver();
+			GameManager.Instance.TriggerGameOver();
 			return;
 		}
 		if (unitSpawnCDLeft <= 0f)
@@ -106,7 +102,7 @@ public class GameplayManager : MonoBehaviour
 	public void DestroyCube(GameObject cube)
 	{
 		cubesToDestroy.Remove(cube);
-		mg.UpdateNavMesh();
+		GameManager.Map.UpdateNavMesh();
 	}
 
 	private Vector3 GetRandomPosition()
@@ -116,7 +112,7 @@ public class GameplayManager : MonoBehaviour
 
 		if (randomCube != null)
 		{
-			float offset = mg.cubeSize / 2;
+			float offset = GameManager.Map.cubeSize / 2;
 
 			randomPosition = randomCube.transform.position;
 			randomPosition.x += Random.Range(-offset, offset);

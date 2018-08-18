@@ -11,4 +11,12 @@ public class Range
 		this.min = min;
 		this.max = max;
 	}
+
+	public static Range operator*(Range r, int i)
+	{
+		r.min *= i;
+		r.max *= i;
+
+		return r;
+	}
 }

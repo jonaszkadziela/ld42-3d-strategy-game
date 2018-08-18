@@ -11,6 +11,14 @@ public class ScoreUI : MonoBehaviour
 
 	void Update()
 	{
+		if (GameManager.GameOver)
+		{
+			if (scoreUI.activeSelf)
+			{
+				scoreUI.SetActive(false);
+			}
+			return;
+		}
 		if (Input.GetButtonDown("Toggle UI"))
 		{
 			scoreUI.SetActive(!scoreUI.activeSelf);

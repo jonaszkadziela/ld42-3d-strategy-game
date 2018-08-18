@@ -10,9 +10,9 @@ public class SceneFade : MonoBehaviour
 	public static string MainMenuSceneName = "Main Menu";
 	public static string ActiveSceneName;
 
-	public float fadeDuration = 1f;
 	public Image overlay;
 	public AnimationCurve curve;
+	public float fadeDuration = 1f;
 
 	void Awake()
 	{
@@ -20,7 +20,7 @@ public class SceneFade : MonoBehaviour
 		{
 			Instance = this;
 		}
-		else if (Instance != this)
+		else
 		{
 			Destroy(gameObject);
 		}
@@ -44,8 +44,8 @@ public class SceneFade : MonoBehaviour
 		while (time > 0f)
 		{
 			time -= Time.deltaTime;
-			float alhpa = curve.Evaluate(time);
-			overlay.color = new Color(0f, 0f, 0f, alhpa);
+			float alpha = curve.Evaluate(time);
+			overlay.color = new Color(0f, 0f, 0f, alpha);
 			yield return 0;
 		}
 	}
@@ -57,8 +57,8 @@ public class SceneFade : MonoBehaviour
 		while (time < fadeDuration)
 		{
 			time += Time.deltaTime;
-			float alhpa = curve.Evaluate(time);
-			overlay.color = new Color(0f, 0f, 0f, alhpa);
+			float alpha = curve.Evaluate(time);
+			overlay.color = new Color(0f, 0f, 0f, alpha);
 			yield return 0;
 		}
 

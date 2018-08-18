@@ -7,8 +7,8 @@ public class ShowPath : MonoBehaviour
 	public LineRenderer line;
 	public GameObject targetIndicator;
 
-	public float lineWidth = 0.05f;
 	public Color lineColor;
+	public float lineWidth = 0.05f;
 
 	void Start()
 	{

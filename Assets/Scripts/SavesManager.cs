@@ -12,6 +12,7 @@ public class SavesManager
 		{
 			PlayerPrefs.SetInt("HighScore", 0);
 		}
+		PlayerPrefs.Save();
 	}
 
 	public static void Load()

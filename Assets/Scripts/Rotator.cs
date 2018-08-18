@@ -10,7 +10,7 @@ public class Rotator : MonoBehaviour
 	public int zRotation;
 	public float rotationSpeed;
 
-	void Update()
+	void FixedUpdate()
 	{
 		transform.Rotate(new Vector3(xRotation, yRotation, zRotation) * rotationSpeed * Time.deltaTime, Space.World);
 	}

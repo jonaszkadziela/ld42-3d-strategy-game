@@ -29,7 +29,7 @@ public class Unit : MonoBehaviour
 
 			if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit))
 			{
-				if (hit.collider.gameObject.tag != "Unit" && agent.isOnNavMesh)
+				if (agent.isOnNavMesh)
 				{
 					agent.SetDestination(hit.point);
 				}
@@ -46,9 +46,7 @@ public class Unit : MonoBehaviour
 
 		child.GetComponent<NavMeshAgent>().enabled = false;
 		child.GetComponent<Rigidbody>().isKinematic = false;
-		child.layer = 0;
 
 		selectable.enabled = false;
-		enabled = false;
 	}
 }

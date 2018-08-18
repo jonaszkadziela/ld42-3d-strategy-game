@@ -5,10 +5,8 @@ using UnityEngine.Analytics;
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
+	public static MapGenerator Map;
 	public static bool GameOver;
-
-	public GameObject topUI;
-	public GameObject gameOverUI;
 
 	void Awake()
 	{
@@ -16,10 +14,13 @@ public class GameManager : MonoBehaviour
 		{
 			Instance = this;
 		}
-		else if (Instance != this)
+		else
 		{
 			Destroy(gameObject);
+			return;
 		}
+
+		Map = GameObject.FindWithTag("MapGenerator").GetComponent<MapGenerator>();
 	}
 
 	void Start()
@@ -28,24 +29,21 @@ public class GameManager : MonoBehaviour
 		SavesManager.Load();
 	}
 
-	public void ToggleGameOver()
+	public void TriggerGameOver()
 	{
 		GameOver = true;
 		SavesManager.Save();
 		UpdateAnalytics();
 
 		Camera.main.GetComponent<CameraController>().MoveCameraToTarget(CameraController.InitialPosition, 0.05f);
-
-		topUI.SetActive(false);
-		gameOverUI.SetActive(true);
 	}
 
 	public void UpdateAnalytics()
 	{
 		Analytics.CustomEvent("PlayerScore", new Dictionary<string, object>
-			{
-				{ "HighScore", ScoreManager.HighScore }
-			});
+		{
+			{ "HighScore", ScoreManager.HighScore }
+		});
 	}
 
 	public void RestartGame()

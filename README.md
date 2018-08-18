@@ -1,9 +1,9 @@
-# Ludum Dare 42 Entry: Don't Let 'em Fall! *by Jonasz Kądziela*
+![Don't Let 'em Fall! Banner](Assets/Images/Banner.jpg)
+
+# Ludum Dare 42 Entry: "Don't Let 'em Fall!" by Jonasz Kądziela
 
 ## A few words of introduction:
-A game made for Ludum Dare 42 competition in 72 hours. I decided to create a quite simple game, that would enable me to tinker a bit with things that I've never done before (like Nav Mesh, Map Generation) 😀
-
-Unfortunately, this time I didn't have enough time to create any music/sound effects for the game. I hope that it won't be a problem for you 🙂
+A game made for Ludum Dare 42 competition in 72 hours. I decided to create a quite simple game, that would enable me to tinker a bit with things I've never done before (like Nav Mesh, Map Generation) 😀
 
 ## How to play?
 * The map consists of 400 cubes (20x20)

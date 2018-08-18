@@ -3,10 +3,9 @@ using UnityEngine.AI;
 
 public class MapGenerator : MonoBehaviour
 {
+	public Vector2Int mapSize;
 	public GameObject cubePrefab;
-	public Vector2 mapSize;
 	public NavMeshSurface navMesh;
-
 	public GameplayManager gameplayManager;
 
 	public string containerName = "Generated Map";
@@ -32,6 +31,7 @@ public class MapGenerator : MonoBehaviour
 		}
 
 		GameObject mapContainer = new GameObject(containerName);
+		mapContainer.transform.parent = transform;
 
 		DetermineCubeSize();
 
