@@ -82,8 +82,6 @@ public class GameplayManager : MonoBehaviour
 			}
 
 			cubeToDestroy.GetComponent<Cube>().InvokeDestroy(destroyDelay, destroyType);
-			cubesAvailable.Remove(cubeToDestroy);
-			cubesToDestroy.Add(cubeToDestroy);
 
 			cubeDestroyCDLeft = cubeDestroyCD;
 		}
@@ -97,12 +95,6 @@ public class GameplayManager : MonoBehaviour
 		cubeDestroyCDLeft -= Time.deltaTime;
 		increaseDifficultyDelayLeft -= Time.deltaTime;
 		ScoreManager.TimeLeft -= Time.deltaTime;
-	}
-
-	public void DestroyCube(GameObject cube)
-	{
-		cubesToDestroy.Remove(cube);
-		GameManager.Map.UpdateNavMesh();
 	}
 
 	private Vector3 GetRandomPosition()

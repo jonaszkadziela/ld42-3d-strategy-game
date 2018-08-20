@@ -134,5 +134,5 @@ MonoBehaviour:
     type: 2}
   selfDestructColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
   explodeColor: {r: 0.764151, g: 0.20545568, b: 0.20545568, a: 1}
+  cubesAffectedByExplosion: 1
   blinkSpeed: 4
-  cubeExplosionRadius: 2

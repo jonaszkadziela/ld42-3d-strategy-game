@@ -39,14 +39,10 @@ public class Unit : MonoBehaviour
 
 	public void OnDisable()
 	{
+		selectable.GetComponent<NavMeshAgent>().enabled = false;
+		selectable.GetComponent<Rigidbody>().isKinematic = false;
+
 		sm.Deselect(selectable);
 		sm.selectableItems.Remove(selectable);
-
-		GameObject child = selectable.gameObject;
-
-		child.GetComponent<NavMeshAgent>().enabled = false;
-		child.GetComponent<Rigidbody>().isKinematic = false;
-
-		selectable.enabled = false;
 	}
 }

@@ -14,8 +14,8 @@ public class Cube : MonoBehaviour
 	public GameObject cubeExplosionParticle;
 	public Color selfDestructColor;
 	public Color explodeColor;
+	public int cubesAffectedByExplosion = 1;
 	public float blinkSpeed = 4f;
-	public float cubeExplosionRadius = 2f;
 
 	private Rigidbody rb;
 	private MeshRenderer mr;
@@ -44,7 +44,7 @@ public class Cube : MonoBehaviour
 		}
 	}
 
-	public void InvokeDestroy(float delay, DestroyTypes type = DestroyTypes.SelfDestruct)
+	public void InvokeDestroy(float delay, DestroyTypes type)
 	{
 		toDestroy = true;
 		gm.cubesAvailable.Remove(gameObject);
@@ -55,6 +55,7 @@ public class Cube : MonoBehaviour
 				targetColor = selfDestructColor;
 				Invoke("SelfDestruct", delay);
 			break;
+			
 			case DestroyTypes.Explode:
 				targetColor = explodeColor;
 				Invoke("Explode", delay);
@@ -85,7 +86,7 @@ public class Cube : MonoBehaviour
 
 		foreach (Collider unit in units)
 		{
-			unit.transform.parent.GetComponent<Unit>().enabled = false;
+			unit.GetComponentInParent<Unit>().enabled = false;
 		}
 
 		ScoreManager.ChangeCurrentUnits(-units.Length);
@@ -94,7 +95,9 @@ public class Cube : MonoBehaviour
 		gameObject.layer = 0;
 		toDestroy = false;
 
-		gm.DestroyCube(gameObject);
+		gm.cubesToDestroy.Remove(gameObject);
+
+		GameManager.Map.UpdateNavMesh();
 	}
 
 	private void Explode()
@@ -106,11 +109,35 @@ public class Cube : MonoBehaviour
 
 		Instantiate(cubeExplosionParticle, transform.position, Quaternion.identity);
 
-		Collider[] cubes = Physics.OverlapSphere(transform.position, cubeExplosionRadius, cubeMask);
+		Vector3 overlapBoxScale = transform.localScale / 2;
+		overlapBoxScale.x += GameManager.Map.cubeSize * cubesAffectedByExplosion;
+		overlapBoxScale.y *= 2;
+		overlapBoxScale.z += GameManager.Map.cubeSize * cubesAffectedByExplosion;
 
-		foreach (Collider cube in cubes)
+		Collider[] colliders = Physics.OverlapBox(transform.position, overlapBoxScale);
+
+		foreach (Collider col in colliders)
 		{
-			cube.gameObject.GetComponent<Cube>().InvokeDestroy(0);
+			switch (col.tag)
+			{
+				case "Cube":
+					Cube cube = col.GetComponent<Cube>();
+
+					gm.cubesAvailable.Remove(cube.gameObject);
+					cube.rb.isKinematic = false;
+					cube.gameObject.layer = 0;
+				break;
+				
+				case "Unit":
+					col.GetComponentInParent<Unit>().enabled = false;
+					ScoreManager.ChangeCurrentUnits(-1);
+				break;
+			}
 		}
+
+		toDestroy = false;
+		gm.cubesToDestroy.Remove(gameObject);
+
+		GameManager.Map.UpdateNavMesh();
 	}
 }
