@@ -9,6 +9,8 @@ public class Cube : MonoBehaviour
 		Explode,
 	};
 
+	[HideInInspector]
+	public AudioPlayer audioPlayer;
 	public LayerMask unitMask;
 	public LayerMask cubeMask;
 	public GameObject cubeExplosionParticle;
@@ -30,6 +32,8 @@ public class Cube : MonoBehaviour
 		mr = GetComponent<MeshRenderer>();
 		gm = GameManager.Instance.GetComponent<GameplayManager>();
 		initialColor = mr.material.color;
+
+		audioPlayer = GetComponent<AudioPlayer>();
 	}
 
 	void Update()
@@ -90,6 +94,7 @@ public class Cube : MonoBehaviour
 		}
 
 		ScoreManager.ChangeCurrentUnits(-units.Length);
+		audioPlayer.Play("CubeSelfDestruct");
 
 		rb.isKinematic = false;
 		gameObject.layer = 0;
@@ -134,6 +139,8 @@ public class Cube : MonoBehaviour
 				break;
 			}
 		}
+
+		audioPlayer.Play("CubeExplode");
 
 		toDestroy = false;
 		gm.cubesToDestroy.Remove(gameObject);

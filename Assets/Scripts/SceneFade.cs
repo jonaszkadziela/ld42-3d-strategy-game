@@ -12,7 +12,7 @@ public class SceneFade : MonoBehaviour
 
 	public Image overlay;
 	public AnimationCurve curve;
-	public float fadeDuration = 1f;
+	public float fadeDuration = 2f;
 
 	void Awake()
 	{
@@ -23,17 +23,32 @@ public class SceneFade : MonoBehaviour
 		else
 		{
 			Destroy(gameObject);
+			return;
 		}
+
+		ActiveSceneName = SceneManager.GetActiveScene().name;
 	}
 
 	void Start()
 	{
-		ActiveSceneName = SceneManager.GetActiveScene().name;
+		switch (ActiveSceneName)
+		{
+			case "Main Menu":
+				AudioManager.Instance.Play("MainMenu");
+			break;
+
+			case "Main":
+				AudioManager.Instance.Play("BGM");
+			break;
+		}
+
+		AudioManager.Instance.Unmute();
 		StartCoroutine(FadeIn());
 	}
 
 	public void FadeTo(string sceneName)
 	{
+		AudioManager.Instance.Mute();
 		StartCoroutine(FadeOut(sceneName));
 	}
 
@@ -43,9 +58,11 @@ public class SceneFade : MonoBehaviour
 
 		while (time > 0f)
 		{
-			time -= Time.deltaTime;
+			time -= Time.unscaledDeltaTime;
+
 			float alpha = curve.Evaluate(time);
 			overlay.color = new Color(0f, 0f, 0f, alpha);
+
 			yield return 0;
 		}
 	}
@@ -56,9 +73,11 @@ public class SceneFade : MonoBehaviour
 
 		while (time < fadeDuration)
 		{
-			time += Time.deltaTime;
+			time += Time.unscaledDeltaTime;
+
 			float alpha = curve.Evaluate(time);
 			overlay.color = new Color(0f, 0f, 0f, alpha);
+
 			yield return 0;
 		}
 

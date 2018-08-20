@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 	public void TriggerGameOver()
 	{
 		GameOver = true;
+		AudioManager.Instance.Play("GameOver");
 		SavesManager.Save();
 		UpdateAnalytics();
 

@@ -3,6 +3,8 @@ using UnityEngine.AI;
 
 public class Unit : MonoBehaviour
 {
+	[HideInInspector]
+	public AudioPlayer audioPlayer;
 	public NavMeshAgent agent;
 
 	private Camera mainCamera;
@@ -15,6 +17,9 @@ public class Unit : MonoBehaviour
 		selectable = GetComponentInChildren<Selectable>();
 		sm = GameManager.Instance.GetComponent<SelectionManager>();
 		sm.selectableItems.Add(selectable);
+
+		audioPlayer = GetComponent<AudioPlayer>();
+		audioPlayer.Play("UnitSpawn");
 	}
 
 	void Update()
@@ -44,5 +49,12 @@ public class Unit : MonoBehaviour
 
 		sm.Deselect(selectable);
 		sm.selectableItems.Remove(selectable);
+
+		Invoke("DieSound", Random.Range(0f, 0.25f));
+	}
+
+	private void DieSound()
+	{
+		audioPlayer.Play("UnitDie");
 	}
 }

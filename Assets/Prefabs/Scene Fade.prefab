@@ -134,7 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0e22188ce1f094f88747afd908e4ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeDuration: 1
   overlay: {fileID: 114323451491582330}
   curve:
     serializedVersion: 2
@@ -142,24 +141,25 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.13306451
+      outSlope: 0.13306451
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.25833333
     - serializedVersion: 3
-      time: 1
+      time: 2
       value: 1
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0.9818182
+      outSlope: 0.9818182
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.22916669
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  fadeDuration: 2
 --- !u!222 &222681558610253950
 CanvasRenderer:
   m_ObjectHideFlags: 1
