@@ -21,20 +21,22 @@ public class GameManager : MonoBehaviour
 		}
 
 		Map = GameObject.FindWithTag("MapGenerator").GetComponent<MapGenerator>();
-	}
 
-	void Start()
-	{
-		GameOver = false;
+		ScoreManager.InitializeVariables();
 		SavesManager.Load();
+		GameOver = false;
 	}
 
 	public void TriggerGameOver()
 	{
 		GameOver = true;
-		AudioManager.Instance.Play("GameOver");
 		SavesManager.Save();
 		UpdateAnalytics();
+
+		if (GameSettings.GameOverSoundEffect)
+		{
+			AudioManager.Instance.Play("GameOver");
+		}
 
 		Camera.main.GetComponent<CameraController>().MoveCameraToTarget(CameraController.InitialPosition, 0.05f);
 	}

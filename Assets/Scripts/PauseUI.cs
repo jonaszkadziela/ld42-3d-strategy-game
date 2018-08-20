@@ -3,6 +3,7 @@
 public class PauseUI : MonoBehaviour
 {
 	public GameObject pauseUI;
+	public GameObject settingsUI;
 
 	void Update()
 	{
@@ -15,7 +16,7 @@ public class PauseUI : MonoBehaviour
 		}
 		else
 		{
-			if (Input.GetButtonDown("Pause"))
+			if (Input.GetButtonDown("Pause") && !settingsUI.activeSelf)
 			{
 				SetPause(!pauseUI.activeSelf);
 			}
@@ -48,5 +49,11 @@ public class PauseUI : MonoBehaviour
 	{
 		SetPause(false);
 		SceneFade.Instance.FadeTo(SceneFade.MainMenuSceneName);
+	}
+
+	public void Settings()
+	{
+		pauseUI.SetActive(false);
+		settingsUI.SetActive(true);
 	}
 }

@@ -56,6 +56,7 @@ public class AudioManager : MonoBehaviour
 
 	void Start()
 	{
+		AdjustMixerVolumes();
 		audioMixer.SetFloat("MasterVolume", -80f);
 	}
 
@@ -106,6 +107,14 @@ public class AudioManager : MonoBehaviour
 		return null;
 	}
 
+	public void AdjustMixerVolumes()
+	{
+		audioMixer.SetFloat("MasterVolume", GameSettings.MasterVolume);
+		audioMixer.SetFloat("MusicVolume", GameSettings.MusicVolume);
+		audioMixer.SetFloat("SFXVolume", GameSettings.SoundEffectsVolume);
+		audioMixer.SetFloat("ImportantSFXVolume", GameSettings.SoundEffectsVolume);
+	}
+
 	private IEnumerator FadeIn()
 	{
 		float time = 0f;
@@ -113,7 +122,7 @@ public class AudioManager : MonoBehaviour
 		while (time < fadeDuration)
 		{
 			time += Time.unscaledDeltaTime;
-			float volume = Mathf.Clamp(fadeCurve.Evaluate(time), -80f, 0f);
+			float volume = Mathf.Clamp(fadeCurve.Evaluate(time), -80f, GameSettings.MasterVolume);
 
 			audioMixer.SetFloat("MasterVolume", volume);
 
@@ -128,7 +137,7 @@ public class AudioManager : MonoBehaviour
 		while (time > 0f)
 		{
 			time -= Time.unscaledDeltaTime;
-			float volume = Mathf.Clamp(fadeCurve.Evaluate(time), -80f, 0f);
+			float volume = Mathf.Clamp(fadeCurve.Evaluate(time), -80f, GameSettings.MasterVolume);
 
 			audioMixer.SetFloat("MasterVolume", volume);
 

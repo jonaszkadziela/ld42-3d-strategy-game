@@ -15,8 +15,14 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
+  - guid: 61de871864eb5864792dc4bd0e566aca
+    name: MusicVolume
   - guid: 6b322a682fd79c446ae46631e0c02bef
     name: MasterVolume
+  - guid: 84832c963a79e584290419070601d7c5
+    name: SFXVolume
+  - guid: 95fc713b63b5e6c4f87bf048a1d8192c
+    name: ImportantSFXVolume
   m_AudioMixerGroupViews:
   - guids:
     - 42c89628fe8118f45abe8d8380ee569e
@@ -69,7 +75,7 @@ AudioMixerSnapshotController:
   m_SnapshotID: 85235f9faf67a86468f518511754190c
   m_FloatValues:
     0aef1b13bd7e4634cb4fc6c4ff182892: -50
-    61de871864eb5864792dc4bd0e566aca: -10
+    61de871864eb5864792dc4bd0e566aca: 0
     6b322a682fd79c446ae46631e0c02bef: -80
     c6a8e67a1e56a1c4ca246c4611af2eda: 5
     f4b58e3c3beb4004fbd5cab9a3058da3: -20
@@ -80,7 +86,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Other Sound Effects
+  m_Name: Sound Effects
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 67313768a664e08489e59c1da5112f39
   m_Children: []
@@ -115,7 +121,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Sound Effects
+  m_Name: Important Sound Effects
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 57ced39ecc0e23141b651db599f94add
   m_Children: []

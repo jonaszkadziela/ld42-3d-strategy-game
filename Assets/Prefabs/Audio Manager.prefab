@@ -85,6 +85,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   music:
   - name: MainMenu
+    pitchVariationRange: 0
     source: {fileID: 0}
     sounds:
     - clip: {fileID: 8300000, guid: fb7ec2a80a70de94687af953c5092819, type: 3}
@@ -92,6 +93,7 @@ MonoBehaviour:
       pitch: 1
       loop: 1
   - name: BGM
+    pitchVariationRange: 0
     source: {fileID: 0}
     sounds:
     - clip: {fileID: 8300000, guid: 412fd9cc54b38fa42888a5e3656e26f1, type: 3}
@@ -100,6 +102,7 @@ MonoBehaviour:
       loop: 1
   soundEffects:
   - name: GameOver
+    pitchVariationRange: 0
     source: {fileID: 0}
     sounds:
     - clip: {fileID: 8300000, guid: 3cae406fc1c7d634d9fc0f097864f81a, type: 3}
