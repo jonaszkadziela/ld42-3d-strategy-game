@@ -60,7 +60,7 @@ public class SceneFade : MonoBehaviour
 		{
 			time -= Time.unscaledDeltaTime;
 
-			float alpha = curve.Evaluate(time);
+			float alpha = curve.Evaluate(time / fadeDuration);
 			overlay.color = new Color(0f, 0f, 0f, alpha);
 
 			yield return 0;
@@ -75,7 +75,7 @@ public class SceneFade : MonoBehaviour
 		{
 			time += Time.unscaledDeltaTime;
 
-			float alpha = curve.Evaluate(time);
+			float alpha = curve.Evaluate(time / fadeDuration);
 			overlay.color = new Color(0f, 0f, 0f, alpha);
 
 			yield return 0;

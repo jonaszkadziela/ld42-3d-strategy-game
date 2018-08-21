@@ -9,9 +9,9 @@ public class GameSettings
 	public static float ScrollSpeed;
 	public static bool GameOverSoundEffect;
 
-	public static float DefaultMasterVolume = 0f;
-	public static float DefaultMusicVolume = -15f;
-	public static float DefaultSoundEffectsVolume = 0f;
+	public static float DefaultMasterVolume = 1f;
+	public static float DefaultMusicVolume = 0.8f;
+	public static float DefaultSoundEffectsVolume = 1f;
 	public static float DefaultPanSpeed = 100f;
 	public static float DefaultScrollSpeed = 50f;
 	public static bool DefaultGameOverSoundEffect = false;

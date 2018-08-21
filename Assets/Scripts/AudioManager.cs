@@ -57,7 +57,7 @@ public class AudioManager : MonoBehaviour
 	void Start()
 	{
 		AdjustMixerVolumes();
-		audioMixer.SetFloat("MasterVolume", -80f);
+		audioMixer.SetFloat("MasterVolume", RemapVolume(0f));
 	}
 
 	public void Play(string name)
@@ -107,12 +107,17 @@ public class AudioManager : MonoBehaviour
 		return null;
 	}
 
+	public static float RemapVolume(float value01)
+	{
+		return Mathf.Lerp(-80f, 0f, value01);
+	}
+
 	public void AdjustMixerVolumes()
 	{
-		audioMixer.SetFloat("MasterVolume", GameSettings.MasterVolume);
-		audioMixer.SetFloat("MusicVolume", GameSettings.MusicVolume);
-		audioMixer.SetFloat("SFXVolume", GameSettings.SoundEffectsVolume);
-		audioMixer.SetFloat("ImportantSFXVolume", GameSettings.SoundEffectsVolume);
+		audioMixer.SetFloat("MasterVolume", RemapVolume(GameSettings.MasterVolume));
+		audioMixer.SetFloat("MusicVolume", RemapVolume(GameSettings.MusicVolume));
+		audioMixer.SetFloat("SFXVolume", RemapVolume(GameSettings.SoundEffectsVolume));
+		audioMixer.SetFloat("ImportantSFXVolume", RemapVolume(GameSettings.SoundEffectsVolume));
 	}
 
 	private IEnumerator FadeIn()
@@ -122,9 +127,9 @@ public class AudioManager : MonoBehaviour
 		while (time < fadeDuration)
 		{
 			time += Time.unscaledDeltaTime;
-			float volume = Mathf.Clamp(fadeCurve.Evaluate(time), -80f, GameSettings.MasterVolume);
+			float volume = fadeCurve.Evaluate(time / fadeDuration);
 
-			audioMixer.SetFloat("MasterVolume", volume);
+			audioMixer.SetFloat("MasterVolume", RemapVolume(Mathf.Clamp(volume, 0f, GameSettings.MasterVolume)));
 
 			yield return 0;
 		}
@@ -137,9 +142,9 @@ public class AudioManager : MonoBehaviour
 		while (time > 0f)
 		{
 			time -= Time.unscaledDeltaTime;
-			float volume = Mathf.Clamp(fadeCurve.Evaluate(time), -80f, GameSettings.MasterVolume);
+			float volume = fadeCurve.Evaluate(time / fadeDuration);
 
-			audioMixer.SetFloat("MasterVolume", volume);
+			audioMixer.SetFloat("MasterVolume", RemapVolume(Mathf.Clamp(volume, 0f, GameSettings.MasterVolume)));
 
 			yield return 0;
 		}
