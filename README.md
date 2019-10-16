@@ -1,4 +1,4 @@
-![Don't Let 'em Fall! Banner](Assets/Images/Banner.jpg)
+![Don't Let 'em Fall! Banner](Showcase/Images/Banner.jpg)
 
 # Ludum Dare 42 Entry: "Don't Let 'em Fall!" by Jonasz Kądziela
 
@@ -33,4 +33,4 @@ A game made for Ludum Dare 42 competition in 72 hours. I decided to create a qui
 **I do really hope that the game isn't too hard or straight up boring. I had very little time to play and balance it** 😅
 
 ## Links:
-* Ludum Dare 42 game entry post: https://ldjam.com/events/ludum-dare/42/dont-let-em-fall/
+* Ludum Dare 42 game entry post: https://ldjam.com/events/ludum-dare/42/dont-let-em-fall
